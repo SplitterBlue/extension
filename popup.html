@@ -1,11 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>My Extension</title>
+    <title>Productivity Coins</title>
+    <link rel="stylesheet" type="text/css" href="popup.css">
+    <meta charset="UTF-8">
 </head>
 <body>
-  <h1>Hello!</h1>
-  <button id="click-me">Click Me</button>
-  <script src="popup.js"></script>
+    <h1>Productivity Coins</h1>
+    <div id="coin-balance">
+        <h2>Coin Balance: <span id="balance">0</span></h2>
+    </div>
+    <div id="tasks">
+        <h3>Your Tasks</h3>
+        <ul id="task-list">
+            <!-- Tasks will be dynamically loaded here -->
+        </ul>
+    </div>
+    <div id="calendar">
+        <h3>Today's Events</h3>
+        <ul id="event-list">
+            <!-- Calendar events will be dynamically loaded here -->
+        </ul>
+    </div>
+    <button id="settings">Settings</button>
+    <script src="popup.js"></script>
 </body>
 </html>
