@@ -1,28 +1,88 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Productivity Coins</title>
-    <link rel="stylesheet" type="text/css" href="popup.css">
-    <meta charset="UTF-8">
-</head>
-<body>
-    <h1>Productivity Coins</h1>
-    <div id="coin-balance">
-        <h2>Coin Balance: <span id="balance">0</span></h2>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="popup.css" />
+  </head>
+  <body
+    class="bg-white text-gray-800 font-sans flex items-start justify-center rounded-lg h-full"
+  >
+    <div class="max-w-md mb-4 mx-auto bg-white p-6 w-full h-full">
+      <h1 class="text-2xl font-bold text-blue-600 mb-4">Productivity Coins</h1>
+      <div id="coin-balance" class="mb-6">
+        <h2 class="text-lg font-semibold text-gray-700">
+          Coin Balance:
+          <span id="balance" class="text-blue-500 font-bold">0</span>
+        </h2>
+      </div>
+      <div id="tasks" class="mb-6 w-full">
+        <div class="bg-blue-50 p-4 rounded-lg shadow-md">
+          <h3 class="text-lg font-semibold text-blue-600 mb-2">Tasks</h3>
+          <div class="space-y-4">
+            <div
+              class="bg-white rounded-lg shadow-sm flex items-center justify-between relative"
+            >
+              <div
+                class="bg-gray-300 bg-opacity-50 text-black flex items-center text-center justify-center w-full h-full bg-white p-3 rounded-lg shadow-sm flex relative"
+              >
+                Mark as Done
+              </div>
+              <div
+                class="w-full h-full absolute bg-white p-3 rounded-lg shadow-sm flex items-center justify-between hover:opacity-0 transition-opacity duration-300 cursor-pointer bg-white"
+              >
+                <span class="text-gray-700">Complete a 30-minute workout</span>
+                <span class="text-blue-500 font-bold">+10 Coins</span>
+              </div>
+            </div>
+            <div
+              class="bg-white rounded-lg shadow-sm flex items-center justify-between relative"
+            >
+              <div
+                class="bg-gray-300 bg-opacity-50 text-black flex items-center text-center justify-center w-full h-full bg-white p-3 rounded-lg shadow-sm flex relative"
+              >
+                Mark as Done
+              </div>
+              <div
+                class="w-full h-full absolute bg-white p-3 rounded-lg shadow-sm flex items-center justify-between hover:opacity-0 transition-opacity duration-300 cursor-pointer bg-white"
+              >
+                <span class="text-gray-700">Read a chapter of a book</span>
+                <span class="text-blue-500 font-bold">+8 Coins</span>
+              </div>
+            </div>
+            <div
+              class="bg-white rounded-lg shadow-sm flex items-center justify-between relative"
+            >
+              <div
+                class="bg-gray-300 bg-opacity-50 text-black flex items-center text-center justify-center w-full h-full bg-white p-3 rounded-lg shadow-sm flex relative"
+              >
+                Mark as Done
+              </div>
+              <div
+                class="w-full h-full absolute bg-white p-3 rounded-lg shadow-sm flex items-center justify-between hover:opacity-0 transition-opacity duration-300 cursor-pointer bg-white"
+              >
+                <span class="text-gray-700">Meditate for 10 minutes</span>
+                <span class="text-blue-500 font-bold">+5 Coins</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a
+        id="dashboard"
+        href="http://localhost:5173"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="w-full bg-blue-500 text-white py-3 px-4 rounded-lg hover:bg-blue-600 transition duration-200 text-base"
+      >
+        Dashboard
+      </a>
     </div>
-    <div id="tasks">
-        <h3>Your Tasks</h3>
-        <ul id="task-list">
-            <!-- Tasks will be dynamically loaded here -->
-        </ul>
-    </div>
-    <div id="calendar">
-        <h3>Today's Events</h3>
-        <ul id="event-list">
-            <!-- Calendar events will be dynamically loaded here -->
-        </ul>
-    </div>
-    <button id="settings">Settings</button>
     <script src="popup.js"></script>
-</body>
+  </body>
 </html>
