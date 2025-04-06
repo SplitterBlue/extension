@@ -13,10 +13,16 @@
     };
 
     onMount(async () => {
-        const response = await fetch('/api/dashboard-data');
+        const coinToken = localStorage.getItem('coinToken');
+        if (!coinToken) {
+            // Redirect to login or handle the absence of the token
+            window.location.href = '/login';
+            return;
+        }
+        const response = await fetch('https://focus-coin-api.onrender.com/suggestions');
         const data = await response.json();
         tasks = data.tasks;
-        balance = data.balance;
+        balance = 20;
         userPreferences = data.preferences;
         calendarEvents = data.calendarEvents;
 
@@ -75,7 +81,7 @@
         <div class="bg-blue-50 p-6 rounded-lg shadow-md">
             <h3 class="text-xl font-semibold text-blue-600 mb-4">Your Tasks</h3>
             <div class="space-y-4">
-                {#if tasks.length > 0}
+                {#if tasks?.length > 0}
                     {#each tasks as task}
                         <div class="bg-white rounded-lg shadow-sm flex items-center justify-between p-4">
                             <div>

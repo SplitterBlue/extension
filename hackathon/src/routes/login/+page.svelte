@@ -6,11 +6,12 @@
 	let userPreferences = {};
 	let calendarEvents = [];
 	let userProfile = {
-		name: 'Guest',
-		avatar: 'https://via.placeholder.com/40'
+		name: 'Guest Mode',
+		avatar: 'https://lumiere-a.akamaihd.net/v1/images/a_avatarpandorapedia_jakesully_16x9_1098_02_b13c4171.jpeg?region=340%2C0%2C1081%2C1081'
 	};
 
 	let accessToken = null;
+	let coinToken = null;
 
 	onMount(async () => {
 		const script = document.createElement('script');
@@ -25,6 +26,7 @@
 
         
 
+
     if (localStorage.getItem('authToken')) {
         accessToken = localStorage.getItem('authToken');
         console.log('🔐 Using existing access token:', accessToken);
@@ -34,33 +36,10 @@
     }
 	});
 
-	function handleCredentialResponse(response) {
-		const id_token = response.credential;
-		const payload = JSON.parse(atob(id_token.split('.')[1]));
-		const { sub: auth_id, email, name, picture } = payload;
-
-		userProfile = {
-			name: name,
-			avatar: picture || 'https://via.placeholder.com/40'
-		};
-
-		console.log('✅ Logged in as:', userProfile.name);
-
-		// Send to backend (optional)
-		fetch('https://focus-coin-api.onrender.com/auth', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({
-				id_token,
-				profile: { email, name },
-				auth_id
-			})
-		});
-	}
+	
 
     // if the token is already in localStorage, use it
     
-
 	function requestAccessToken() {
 		const tokenClient = google.accounts.oauth2.initTokenClient({
 			client_id: '806927995382-2f5dn1a69e023129jrhtq0ldbka1ohhb.apps.googleusercontent.com',
@@ -104,7 +83,8 @@
 						let name = profile.name;
 						let auth_id = profile.sub;
 						console.log('👤 User Profile:', profile);
-                        const pfp = JSON.parse(atob(localStorage.getItem("jwt_token").split('.')[1])).picture
+                        // const pfp = JSON.parse(atob(localStorage.getItem("jwt_token").split('.')[1])).picture
+						const pfp = "https://lumiere-a.akamaihd.net/v1/images/a_avatarpandorapedia_jakesully_16x9_1098_02_b13c4171.jpeg?region=340%2C0%2C1081%2C1081"
 						userProfile = {
 							name: profile.name,
 							avatar: profile.picture || 'https://via.placeholder.com/40'
@@ -134,7 +114,13 @@
 
                                 console.log(body);
                                 localStorage.setItem('coinToken', body.app_token);
+								coinToken = localStorage.getItem('coinToken'); // Update the coinToken from localStorage
                                 console.log('✅ Authenticated successfully');
+
+								setTimeout(() => {
+									// Redirect to the main page after successful authentication
+									window.location.href = '/';
+								}, 3000); // Redirect after 1 second to allow the UI to update
                             } else {
                                 console.error('❌ Authentication failed');
                             }
@@ -181,6 +167,7 @@
 	</div>
 
 	<!-- Button to fetch Google Tasks -->
+	 <!-- {#if !accessToken} -->
 	<div class="mt-4 flex justify-center">
 		<button
 			on:click={requestAccessToken}
@@ -189,12 +176,24 @@
 			Connect Google Tasks
 		</button>
 	</div>
+	<!-- {/if} -->
+
+	{#if accessToken}
+		<div class="mt-4 flex justify-center">
+			<button
+				on:click={useToken}
+				class="rounded bg-green-600 px-4 py-2 font-semibold text-white shadow hover:bg-green-700"
+			>
+				You are now connected! <span class="ml-2">Refresh Tasks</span>
+			</button>
+		</div>
+	{/if}
 
 	<!-- Google Sign-In Button -->
 	<div id="g_id_signin" class="mt-4 flex justify-center"></div>
 
 	<!-- Task list -->
-	{#if tasks.length}
+	<!-- {#if tasks.length}
 		<div class="mt-6">
 			<h2 class="mb-2 text-xl font-semibold">Your Task Lists:</h2>
 			<ul class="list-disc pl-5">
@@ -203,5 +202,5 @@
 				{/each}
 			</ul>
 		</div>
-	{/if}
+	{/if} -->
 </div>

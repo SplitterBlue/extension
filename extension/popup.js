@@ -46,6 +46,9 @@ async function useToken() {
     const body = await resp.json();
     const tasks = body.tasks;
 
+    // let displayTasks = tasks.length <= 3 ? tasks : tasks.slice(0, 3)
+    
+
     const container = document.querySelector("#tasks");
     tasks.forEach((task) => {
       const taskElement = document.createElement("div");
