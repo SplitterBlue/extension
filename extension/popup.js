@@ -25,6 +25,8 @@ chrome.runtime.sendMessage({ type: "getCoinToken" }, async (response) => {
     
     const body = await resp.json();
     const tasks = body.tasks;
+
+    // let displayTasks = tasks.length <= 3 ? tasks : tasks.slice(0, 3)
     
 
     const container = document.querySelector("div#tasks");
@@ -63,7 +65,7 @@ chrome.runtime.sendMessage({ type: "getCoinToken" }, async (response) => {
 
     
   } catch (err) {
-    //login();
+    login();
     alert("Error: " + err.message);
   }
 
