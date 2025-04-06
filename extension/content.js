@@ -6,6 +6,7 @@ chrome.runtime.sendMessage({ type: "getToken" }, async (response) => {
     return;
   }
   console.log("✅ Token received from background:", response?.token);
+  let coinToken = response?.token;
   const resp2 = await fetch("https://focus-coin-api.onrender.com/wallet", {
     method: "GET",
     headers: {
@@ -13,9 +14,19 @@ chrome.runtime.sendMessage({ type: "getToken" }, async (response) => {
     },
   });
 
+  const resp3 = await fetch("https://focus-coin-api.onrender.com/site-metric", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${coinToken}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ site: window.location.hostname}),
+  });
+  
+  const body3 = await resp3.json();
   const body2 = await resp2.json();
   const wallet_balance = parseInt(body2.wallet_balance) || 0; // Fallback to 0 if wallet_balance is not available
-  if (wallet_balance <= 0) {
+  if (wallet_balance <= 0 && !body3.is_productive) {
     console.error(
       "❌ Insufficient funds to access this page. Wallet balance is 0 or less."
     );
@@ -36,6 +47,8 @@ chrome.runtime.sendMessage({ type: "getToken" }, async (response) => {
       "Insufficient funds to access this page. Do some of your tasks!";
     overlay.style.fontWeight = "bold";
     overlay.style.fontSize = "24px";
+    
+document.documentElement.style.overflow = "hidden";
 
     // Append the overlay to the body
     document.body.appendChild(overlay);
@@ -68,10 +81,3 @@ overlay.style.fontSize = "24px";
 //document.body.appendChild(overlay);
 
 // Disable scrolling on the page
-document.documentElement.style.overflow = "hidden";
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  alert(message);
-  if (message.type === "getToken") {
-    alert("Message received: useToken", message.token);
-  }
-});
