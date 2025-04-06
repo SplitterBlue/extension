@@ -64,7 +64,7 @@
 	function requestAccessToken() {
 		const tokenClient = google.accounts.oauth2.initTokenClient({
 			client_id: '806927995382-2f5dn1a69e023129jrhtq0ldbka1ohhb.apps.googleusercontent.com',
-			scope: 'https://www.googleapis.com/auth/tasks.readonly',
+			scope: 'https://www.googleapis.com/auth/tasks.readonly openid email profile',
 			callback: (tokenResponse) => {
 				accessToken = tokenResponse.access_token;
 				console.log('🔐 Got access token:', accessToken);
