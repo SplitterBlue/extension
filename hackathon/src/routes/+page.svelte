@@ -8,7 +8,7 @@
     let userPreferences = {};
     let calendarEvents = [];
     let userProfile = {
-        name: "John Doe", // Replace with dynamic data if available
+        name: "Alex  Anca", // Replace with dynamic data if available
         avatar: "https://via.placeholder.com/40", // Replace with user's Google avatar URL
     };
 
@@ -19,10 +19,29 @@
             window.location.href = '/login';
             return;
         }
-        const response = await fetch('https://focus-coin-api.onrender.com/suggestions');
+        const response = await fetch(
+      "https://focus-coin-api.onrender.com/suggestions",
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${coinToken}`,
+        },
+      }
+    );
+
+    const balance_response = await fetch(
+      "https://focus-coin-api.onrender.com/wallet",
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${coinToken}`,
+        },
+      }
+    );
         const data = await response.json();
         tasks = data.tasks;
-        balance = 20;
+        const balanceData = await balance_response.json();
+        balance = balanceData.wallet_balance || 25; // Fallback to 0 if balance is undefined
         userPreferences = data.preferences;
         calendarEvents = data.calendarEvents;
 
@@ -36,14 +55,20 @@
     }
 
     function markAsDone(task) {
-        balance += task.coins;
+        balance += task.score;
         tasks = tasks.filter(t => t !== task);
         // Optionally, send the updated task status to the backend
-        fetch('/api/mark-task-done', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ taskId: task.id })
-        });
+        fetch(
+      "https://focus-coin-api.onrender.com/wallet",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${coinToken}`,
+        },
+        body: JSON.stringify({
+          amount: task.score,
+        }),
+      })
     }
 </script>
 
@@ -51,7 +76,7 @@
     <!-- User Profile Section -->
     <div id="user-profile" class="flex items-center mb-6 absolute top-0 right-0 mt-4 mr-6 bg-gray-100 p-4 rounded-lg ">
         <img
-            src="{userProfile.avatar}"
+            src="https://images.pexels.com/photos/1001682/pexels-photo-1001682.jpeg?cs=srgb&dl=pexels-kellie-churchman-371878-1001682.jpg&fm=jpg"
             alt="User Avatar"
             class="w-10 h-10 rounded-full mr-4"
         />
@@ -85,8 +110,8 @@
                     {#each tasks as task}
                         <div class="bg-white rounded-lg shadow-sm flex items-center justify-between p-4">
                             <div>
-                                <span class="text-gray-700">{task.description}</span>
-                                <span class="text-blue-500 font-bold ml-2">+{task.coins} Coins</span>
+                                <span class="text-gray-700">{task.task}</span>
+                                <span class="text-blue-500 font-bold ml-2">+{task.score} Coins</span>
                             </div>
                             <button
                                 on:click={() => markAsDone(task)}
