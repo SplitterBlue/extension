@@ -4,8 +4,9 @@ extension popup has: - current coins - productivity suggestions(income from the 
 
 APIs
 
-- post /userinfo : saves user preferences
+- post /user-info : saves user preferences
 - get /suggestions : returns suggestions of what the user should be doing to be productive
 - post /site-metric : passes site visited, and returns productivity score(+ or -)
 - post auth: signs in the user
 - get balance: returns the amount of coins the user has.
+- post /coin-update
