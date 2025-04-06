@@ -1,4 +1,4 @@
-const siteUrl = "http://localhost:5173"; // Replace with your actual site URL
+const siteUrl = "https://hackathon-nine-virid.vercel.app"; // Replace with your actual site URL
 let coinToken = null;
 
 const storedToken = localStorage.getItem("coinToken");
